@@ -235,9 +235,9 @@ Needed to detect scope changes at runtime.")
 ;;;###autoload
 (define-minor-mode winum-mode
   "A minor mode that allows for managing windows based on window numbers."
-  nil
-  nil
-  winum-keymap
+  :init-value nil
+  :lighter nil
+  :keymap winum-keymap
   :global t
   (if winum-mode
       (winum--init)
