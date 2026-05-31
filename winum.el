@@ -1,4 +1,4 @@
-;;; winum.el --- Navigate windows and frames using numbers.
+;;; winum.el --- Navigate windows and frames using numbers.  -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2006-2015 Nikolaj Schumacher
 ;; Copyright (c) 2016 Thomas Chauvot de Beauchêne
@@ -427,8 +427,8 @@ WINDOW: if specified, the window of which we want to know the number.
 POSITION: position in the mode-line."
   (let ((mode-line (default-value 'mode-line-format))
         res)
-    (dotimes (i (min (or position winum-mode-line-position 1)
-                     (length mode-line)))
+    (dotimes (_i (min (or position winum-mode-line-position 1)
+                      (length mode-line)))
       (push (pop mode-line) res))
     (unless (equal (car mode-line) winum--mode-line-segment)
       (push winum--mode-line-segment res))
