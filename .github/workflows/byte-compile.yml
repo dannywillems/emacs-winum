@@ -1,0 +1,44 @@
+name: Byte-compile
+
+on: [push, pull_request]
+
+jobs:
+  byte-compile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs_version:
+          - '24.5'
+          - '30.1'
+          - 'snapshot'
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+
+      - name: Install dependencies
+        run: |
+          emacs --batch \
+            --eval "(require 'package)" \
+            --eval "(add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\") t)" \
+            --eval "(package-initialize)" \
+            --eval "(package-refresh-contents)" \
+            --eval "(package-install 'dash)"
+
+      - name: Byte-compile
+        run: |
+          emacs --batch \
+            --eval "(require 'package)" \
+            --eval "(package-initialize)" \
+            --eval "(setq byte-compile-error-on-warn nil)" \
+            -f batch-byte-compile winum.el
+
+      - name: Load
+        run: |
+          emacs --batch \
+            --eval "(require 'package)" \
+            --eval "(package-initialize)" \
+            --eval "(load (expand-file-name \"winum.el\"))"
