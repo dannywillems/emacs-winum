@@ -129,7 +129,7 @@ and *NeoTree* the number 0:
   (add-to-list
     \\='winum-assign-functions #\\='winum-assign-0-to-neotree)"
   :group 'winum
-  :type  'list)
+  :type  '(repeat function))
 
 (defcustom winum-auto-setup-mode-line t
   "When nil, `winum-mode' will not display window numbers in the mode-line.
